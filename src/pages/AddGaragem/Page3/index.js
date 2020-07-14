@@ -31,17 +31,50 @@ function Disponibilidade({ navigation }) {
     today: 'Hoje'
   };
 
-  const [selected, setSelected] = useState({'2020-08-10': {startingDay: true, color: 'green'}});
+  const [selected, setSelected] = useState({});
+  const [initialDate, setInitialDate] = useState({});
+  const [finalDate, setFinalDate] = useState({});
 
   const onDayPress = (day) => {
     // setSelected(day.dateString);
+    // console.log(day.dateString);
 
 
-    setSelected({
-      '2020-08-10': {startingDay: true, color: 'green'}
-    });
-    console.log(selected)
+    const a = new Date(day.year, day.month, day.day)
+    const b = new Date(2020, 7, 22)
+
+    setInitialDate(Object.assign({}, a));
+    setFinalDate(Object.assign({}, b));
+
+    markDays(a,b);
+
+
   };
+  const markDays = (initial, final) => {
+    
+    const markedDay = Object.assign({}, selected)
+    
+    for (var d = initial; d <= final; d.setDate(d.getDate() + 1)) {
+      // console.log(formatDate(d))
+      markedDay[formatDate(d)] = {selected: true, endingDay: false, startDay: false, color: 'green'}
+    }
+
+    setSelected(markedDay);
+  };
+
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth()),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 
   return (
     <View style={styles.containerDisponibilidade}>
