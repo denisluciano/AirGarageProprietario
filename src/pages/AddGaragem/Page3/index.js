@@ -20,7 +20,7 @@ const calendary =
   "dezembro": 31,
 };
 
-function Disponibilidade({ navigation }) {
+function AddGaragePage3({ route, navigation }) {
   LocaleConfig.defaultLocale = 'pt-br';
 
   LocaleConfig.locales['pt-br'] = {
@@ -32,31 +32,86 @@ function Disponibilidade({ navigation }) {
   };
 
   const [selected, setSelected] = useState({});
-  const [initialDate, setInitialDate] = useState({});
-  const [finalDate, setFinalDate] = useState({});
+  const [firstDate, setFirstDate] = useState({});
+
+  // usado para saber qual clique é para adicionar o intervalo.
+  // false não deu nem um clique, true falta um para o intervalo
+  const [alter, setAlter] = useState(false)
 
   const onDayPress = (day) => {
-    // setSelected(day.dateString);
-    // console.log(day.dateString);
+
+    // console.log(selected)
+
+    for (let key in selected) {
+      
+      console.log("key");
+      console.log( key );
+      // values for the keys
+      console.log( selected[key] ); // John, 30, true
+    }
+
+    console.log("---");
+
+    if(!alter){
+      const dayObj = new Date(day.year, day.month-1, day.day)
+      setFirstDate(dayObj);
+      setAlter(!alter)
+    }else {
+      const dayObj = new Date(day.year, day.month-1, day.day); //month is less 1 because is start in month 0 and calendary 1
+
+      if(firstDate > dayObj){
+        markDays(dayObj, firstDate);
+      }else {
+        markDays(firstDate, dayObj);
+      }
+      
+      setAlter(!alter)
+     
+    }
+  };
+  const next = () => {
+    //implementar isso aqui
+/*     let user1 = {}
+
+    user1["name"] = "John"
+    user1["age"] = 30
+    user1["isAdmin"] = true
 
 
-    const a = new Date(day.year, day.month, day.day)
-    const b = new Date(2020, 7, 22)
+    for (let key in user1) {
+      // keys
+      alert( key );  // name, age, isAdmin
+      // values for the keys
+      alert( user[key] ); // John, 30, true
+    } */
 
-    setInitialDate(Object.assign({}, a));
-    setFinalDate(Object.assign({}, b));
+    let dataPage3 = {}
+       
+    dataPage3 = Object.assign(route.params, {"disponibilidade": selected});
 
-    markDays(a,b);
+    navigation.navigate('AddGaragePage4', dataPage3)
 
 
   };
   const markDays = (initial, final) => {
+  
     
     const markedDay = Object.assign({}, selected)
+
+    var d = new Date(initial)
     
-    for (var d = initial; d <= final; d.setDate(d.getDate() + 1)) {
-      // console.log(formatDate(d))
-      markedDay[formatDate(d)] = {selected: true, endingDay: false, startDay: false, color: 'green'}
+    for (; d <= final; d.setDate(d.getDate() + 1)) {
+
+      if(final.getTime() == initial.getTime()){
+        markedDay[formatDate(d)] = {startingDay: true, color: 'green', endingDay: true}
+      } else if(d.getTime() == initial.getTime()){
+        markedDay[formatDate(d)] =  {startingDay: true, color: 'green' }
+      }else if(d.getTime() === final.getTime()){
+        markedDay[formatDate(d)] = { endingDay: true, color: 'green'}
+      }else{
+        markedDay[formatDate(d)] = { startingDay: false, color: 'green', endingDay: false}
+      }
+      
     }
 
     setSelected(markedDay);
@@ -64,7 +119,7 @@ function Disponibilidade({ navigation }) {
 
   function formatDate(date) {
     var d = new Date(date),
-        month = '' + (d.getMonth()),
+        month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
 
@@ -104,10 +159,17 @@ function Disponibilidade({ navigation }) {
       <View style={styles.bottomBar}>
 
         <TouchableOpacity
-          style={ styles.btnConfirmar}
+          style={styles.btnLimpar}
           onPress={() => {
 
           }}
+        >
+          <Text style={styles.textConfirmar}>Limpar tudo</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.btnConfirmar}
+          onPress={next}
         >
           <Text style={styles.textConfirmar}>Avançar</Text>
         </TouchableOpacity>
@@ -118,4 +180,4 @@ function Disponibilidade({ navigation }) {
   );
 }
 
-export default Disponibilidade;
+export default AddGaragePage3;

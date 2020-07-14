@@ -9,16 +9,16 @@ import styles from './style2';
 
 
 
-export default function AddGaragePage2({navigation}) {
+export default function AddGaragePage2({route, navigation}) {
   const formRef = useRef(null);
 
   const [tipo, setTipo] = useState("Residencial");
-  const [acessoControlado, setAcessoControlado] = useState("");
-  const [cameras, setCameras] = useState("");
-  const [vagaPresa, setVagaPresa] = useState("");
-  const [alarme, setAlarme] = useState("");
-  const [objetos, setObjetos] = useState("");
-  const [coberto, setCoberto] = useState("");
+  const [acessoControlado, setAcessoControlado] = useState("yes");
+  const [cameras, setCameras] = useState("yes");
+  const [vagaPresa, setVagaPresa] = useState("yes");
+  const [alarme, setAlarme] = useState("yes");
+  const [objetos, setObjetos] = useState("yes");
+  const [coberto, setCoberto] = useState("yes");
 
 
   async function handleSubmit(data) {
@@ -29,13 +29,26 @@ export default function AddGaragePage2({navigation}) {
       //basicamente to dizendo que os dados que eu to recebendo para validar estão na forma e um objeto, 
       // e esse objeto está na seguinte forma(shape)
       const schema = Yup.object().shape({
-        titulo: Yup.string().required('É obrigatório adicionar um titulo para sua garagem'),
-        descricao: Yup.string().required('É obrigatório adicionar uma descrição para sua garagem'),
+        comprimento: Yup.string().required('É obrigatório adicionar um comprimento para a vaga na garagem'),
+        largura: Yup.string().required('É obrigatório adicionar uma largura para a vaga na garagem'),
+        
       })
 
       await schema.validate(data,{
         // abortEarly: false, //para pegar todos os erros, não só o primeiro
        })
+
+       let dataPage2 = {}
+       
+       dataPage2 = Object.assign(data, route.params, {tipo,
+        acessoControlado,
+        cameras,
+        vagaPresa,
+        alarme,
+        objetos,
+        coberto});
+
+        navigation.navigate('AddGaragePage3', dataPage2)
 
     } catch (error) {      
       const errors = getValidationErrors(error);
@@ -46,7 +59,8 @@ export default function AddGaragePage2({navigation}) {
       Alert.alert(
         'Erro ao adicionar garagem',
         error.message
-      )
+      );
+
     }
   }
 
@@ -65,13 +79,13 @@ export default function AddGaragePage2({navigation}) {
           <View style={{alignItems:"flex-start", width: 360}}>
             <Text>Comprimento</Text>
           </View>
-          <Input name="Comprimento" type="text"  maxLength={49} placeholder="Comprimento"/>
+          <Input name="comprimento" type="text"  maxLength={49} placeholder="Comprimento"/>
           <View style={{alignItems:"flex-start", width: 360}}>
             <Text>Largura</Text>
           </View>
-          <Input name="Largura" type="text"  maxLength={49} placeholder="Largura"/>
+          <Input name="largura" type="text"  maxLength={49} placeholder="Largura"/>
           <View style={{alignItems:"flex-start", width: 360}}>
-            <Text>Altura</Text>
+            <Text>Altura(Caso seja coberta)</Text>
           </View>
           <Input name="Altura" type="text"  maxLength={49} placeholder="Altura"/>
 
@@ -93,8 +107,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setAcessoControlado(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
           <View style={{marginVertical: 20}}>
@@ -104,8 +118,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setCameras(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
           <View style={{marginVertical: 20}}>
@@ -115,8 +129,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setVagaPresa(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
           <View style={{marginVertical: 20}}>
@@ -126,8 +140,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setAlarme(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
           <View style={{marginVertical: 20}}>
@@ -137,8 +151,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setObjetos(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
           <View style={{marginVertical: 20}}>
@@ -148,8 +162,8 @@ export default function AddGaragePage2({navigation}) {
               style={{ height: 50, width: 360 }}
               onValueChange={(itemValue, itemIndex) => setCoberto(itemValue)}
             >
-              <Picker.Item label="Sim" value="true" />
-              <Picker.Item label="Não" value="false" />
+              <Picker.Item label="Sim" value="yes" />
+              <Picker.Item label="Não" value="no" />
             </Picker>
           </View>
 

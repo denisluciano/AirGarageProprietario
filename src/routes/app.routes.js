@@ -38,6 +38,7 @@ import EditProfile from '../pages/EditProfile';
 import AddGaragePage1 from '../pages/AddGaragem/Page1';
 import AddGaragePage2 from '../pages/AddGaragem/Page2';
 import AddGaragePage3 from '../pages/AddGaragem/Page3';
+import AddGaragePage4 from '../pages/AddGaragem/Page4';
 
 
 
@@ -102,7 +103,7 @@ function AppRoutes({ navigation, route  }) {
       screenOptions={{
         headerShown:false,
       }}
-      initialRouteName="AddGaragePage3"
+      initialRouteName="AddGaragePage1"
     >
       <AppStack.Screen name="Home" component={TabRoutes} />
       <AppStack.Screen
@@ -156,6 +157,22 @@ function AppRoutes({ navigation, route  }) {
       <AppStack.Screen
         name="AddGaragePage3"
         component={AddGaragePage3}
+        options={{
+          title: 'Adicionar Garagem',
+          headerStyle: {
+            backgroundColor: '#FF6600',
+          },
+          headerTintColor: '#000',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerShown: true,
+          // headerTitleAlign: "center",
+        }}
+      />
+      <AppStack.Screen
+        name="AddGaragePage4"
+        component={AddGaragePage4}
         options={{
           title: 'Adicionar Garagem',
           headerStyle: {
