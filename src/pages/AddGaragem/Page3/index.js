@@ -5,21 +5,6 @@ import {Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calend
 
 import styles from './style';
 
-const calendary =
-{
-  "janeiro" : 31,
-  "marco": 31,
-  "abril": 30,
-  "maio": 31,
-  "junho": 30,
-  "julho": 31,
-  "agosto": 31,
-  "setembro": 30,
-  "outubro": 31,
-  "novembro": 30,
-  "dezembro": 31,
-};
-
 function AddGaragePage3({ route, navigation }) {
   LocaleConfig.defaultLocale = 'pt-br';
 
@@ -40,18 +25,6 @@ function AddGaragePage3({ route, navigation }) {
 
   const onDayPress = (day) => {
 
-    // console.log(selected)
-
-    for (let key in selected) {
-      
-      console.log("key");
-      console.log( key );
-      // values for the keys
-      console.log( selected[key] ); // John, 30, true
-    }
-
-    console.log("---");
-
     if(!alter){
       const dayObj = new Date(day.year, day.month-1, day.day)
       setFirstDate(dayObj);
@@ -64,27 +37,13 @@ function AddGaragePage3({ route, navigation }) {
       }else {
         markDays(firstDate, dayObj);
       }
-      
+
       setAlter(!alter)
      
     }
   };
   const next = () => {
-    //implementar isso aqui
-/*     let user1 = {}
-
-    user1["name"] = "John"
-    user1["age"] = 30
-    user1["isAdmin"] = true
-
-
-    for (let key in user1) {
-      // keys
-      alert( key );  // name, age, isAdmin
-      // values for the keys
-      alert( user[key] ); // John, 30, true
-    } */
-
+    
     let dataPage3 = {}
        
     dataPage3 = Object.assign(route.params, {"disponibilidade": selected});
@@ -95,7 +54,6 @@ function AddGaragePage3({ route, navigation }) {
   };
   const markDays = (initial, final) => {
   
-    
     const markedDay = Object.assign({}, selected)
 
     var d = new Date(initial)
@@ -104,10 +62,42 @@ function AddGaragePage3({ route, navigation }) {
 
       if(final.getTime() == initial.getTime()){
         markedDay[formatDate(d)] = {startingDay: true, color: 'green', endingDay: true}
+        
+        var dateAnterior = new Date(d)
+        dateAnterior.setDate(d.getDate() - 1)
+        
+        if(!!markedDay[formatDate(dateAnterior)]){
+          markedDay[formatDate(dateAnterior)].endingDay = true
+        }
+        var dateProximo = new Date(d)
+        dateProximo.setDate(d.getDate() + 1)
+        
+        if(!!markedDay[formatDate(dateProximo)]){
+          markedDay[formatDate(dateProximo)].startingDay = true;
+        }
+
       } else if(d.getTime() == initial.getTime()){
         markedDay[formatDate(d)] =  {startingDay: true, color: 'green' }
+        
+        var dateAnterior = new Date(d)
+        dateAnterior.setDate(d.getDate() - 1)
+        
+        if(!!markedDay[formatDate(dateAnterior)]){
+          markedDay[formatDate(dateAnterior)].endingDay = true
+        }
+
+
       }else if(d.getTime() === final.getTime()){
         markedDay[formatDate(d)] = { endingDay: true, color: 'green'}
+        //verificando se o proximo está selecionado para caso tiver falar que ele indica um inicio
+        
+        var dateProximo = new Date(d)
+        dateProximo.setDate(d.getDate() + 1)
+        
+        if(!!markedDay[formatDate(dateProximo)]){
+          markedDay[formatDate(dateProximo)].startingDay = true;
+        }
+
       }else{
         markedDay[formatDate(d)] = { startingDay: false, color: 'green', endingDay: false}
       }
@@ -148,7 +138,7 @@ function AddGaragePage3({ route, navigation }) {
             markingType={'period'}
             pastScrollRange={0}
             // Max amount of months allowed to scroll to the future. Default = 50
-            futureScrollRange={3}
+            futureScrollRange={12}
             // Enable or disable scrolling of calendar list
             markedDates={selected}
             onDayPress={onDayPress}
@@ -161,7 +151,7 @@ function AddGaragePage3({ route, navigation }) {
         <TouchableOpacity
           style={styles.btnLimpar}
           onPress={() => {
-
+            setSelected({})
           }}
         >
           <Text style={styles.textConfirmar}>Limpar tudo</Text>

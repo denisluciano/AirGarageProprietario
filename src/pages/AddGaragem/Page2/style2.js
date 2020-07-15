@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     alignItems: "center",
+    marginBottom: 70,
+    marginTop: 20,
   },
   containerInputs:{
     alignItems: "center",

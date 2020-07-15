@@ -16,11 +16,12 @@ export default function AddGaragePage4({route, navigation}) {
 
     console.log(payload);
 
-    // api.post('/garages', payload).then((Response) => {
+    api.post('/garages', payload).then((res) => {
+      console.log((res.data.id))
 
-    // }).catch((err) =>{
-
-    // });
+    }).catch((err) =>{
+      console.log(err)
+    });
 
 
   }

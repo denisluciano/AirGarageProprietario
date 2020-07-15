@@ -40,13 +40,18 @@ export default function AddGaragePage2({route, navigation}) {
 
        let dataPage2 = {}
        
-       dataPage2 = Object.assign(data, route.params, {tipo,
-        acessoControlado,
-        cameras,
-        vagaPresa,
-        alarme,
-        objetos,
-        coberto});
+        dataPage2 = Object.assign( route.params, {
+          "dimx": data.comprimento,
+          "dimy": data.largura,
+          "dimz": data.altura,
+          "endereco_garagem_id": 5,
+          tipo,
+          "acesso_controlado": acessoControlado == "yes" ? true : false,
+          "cameras": cameras == "yes" ? true : false,
+          "vaga_presa": vagaPresa == "yes" ? true : false ,
+          "alarme": alarme == "yes" ? true : false ,
+          "objetos": objetos == "yes" ? true : false ,
+          "coberto": coberto == "yes" ? true : false });
 
         navigation.navigate('AddGaragePage3', dataPage2)
 
@@ -87,7 +92,7 @@ export default function AddGaragePage2({route, navigation}) {
           <View style={{alignItems:"flex-start", width: 360}}>
             <Text>Altura(Caso seja coberta)</Text>
           </View>
-          <Input name="Altura" type="text"  maxLength={49} placeholder="Altura"/>
+          <Input name="altura" type="text"  maxLength={49} placeholder="Altura"/>
 
           <View style={{marginVertical: 20}}>
             <Text>Tipo</Text>

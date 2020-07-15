@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 0,
     marginRight: 0,
+    marginBottom: 50,
 
   },
   containerDisponibilidade:{
