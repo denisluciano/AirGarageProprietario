@@ -62,7 +62,7 @@ function TabRoutes() {
               : <Ionicons name='ios-notifications-outline' size={size} color={color} />;
           }else if (route.name === 'Locações') {
             return focused
-              ? <Ionicons name='ios-list-box' size={size} color={color} />
+              ? <Ionicons name='ios-list' size={size} color={color} />
               : <Ionicons name='ios-list' size={size} color={color} />;
           }else if (route.name === 'Faturamento') {
             return focused
@@ -103,7 +103,7 @@ function AppRoutes({ navigation, route  }) {
       screenOptions={{
         headerShown:false,
       }}
-      initialRouteName="AddGaragePage1"
+      initialRouteName="Home"
     >
       <AppStack.Screen name="Home" component={TabRoutes} />
       <AppStack.Screen
