@@ -24,7 +24,7 @@ function CardGaragem({ navigation, item }) {
         </View>
 
         <View style={styles.valueInfo}>
-          <Text style={styles.textValue}>15,00/Dia</Text>
+          <Text style={styles.textValue}>{item.disponibilidadeGaragem[0].valor_diaria}/Dia</Text>
 
         </View>
         <View style={styles.bottomInfo}>
@@ -70,7 +70,9 @@ function HomeScreen({ navigation }) {
   useEffect(() => {
     async function loadGarages(){
 
-      const response = await api.get('/garages');
+      setGarages([])
+
+      const response = await api.get('/garagesproprietario');
 
       setGarages(response.data);
     }
@@ -87,6 +89,11 @@ function HomeScreen({ navigation }) {
       <FlatList
         data={garages}
         keyExtractor = {(garage) => `list-item-${garage.id}`}
+        ListEmptyComponent={() => (
+          <View style={{height: 300, alignItems:"center", justifyContent:"center"}} >
+          <Text style={{fontSize: 20}}>Você não possui nenhuma garagem</Text>
+          </View>
+          )}
         renderItem={({ item }) =>
           <View>
             <CardGaragem navigation={navigation} item={item} />

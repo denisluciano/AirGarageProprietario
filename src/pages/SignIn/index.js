@@ -6,8 +6,8 @@ import styles from './style';
 
 
 function SignIn({ navigation }) {
-  const [email, onChangeEmail] = React.useState('denis.lopes3012@gmail.com');
-  const [senha, onChangeText] = React.useState('png126497');
+  const [email, onChangeEmail] = React.useState('');
+  const [senha, onChangeText] = React.useState('');
   const [session, setSession] = React.useState(null);
 
 

@@ -5,6 +5,24 @@ import api from '../../services/api'
 import styles from './style';
 
 function CardGaragem({ navigation, item }) {
+
+  function dataAtualFormatada(date){
+
+    var x = new Date(date)
+    return x.getDay()+"/"+x.getMonth()+"/"+x.getFullYear()+""
+
+  }
+
+  function formatTotalValue(value){
+
+
+    return value.toFixed(2).toString().replace(".",",");
+
+  }
+  
+
+
+
   return(
     <View style={styles.cardGaragemGlobal}>
       <View style={styles.cardGaragem}>
@@ -15,17 +33,17 @@ function CardGaragem({ navigation, item }) {
 
           </View>
 
-          <View style={styles.infoItem}>
+          {/* <View style={styles.infoItem}>
             <Text style={styles.textAdress}>Endereço: {item.enderecoGaragem.rua},{item.enderecoGaragem.bairro}, {item.enderecoGaragem.cidade}, {item.enderecoGaragem.estado}</Text>
+          </View> */}
+          <View style={styles.infoItem}>
+        <Text style={styles.textAdress}>Cliente: {item.clienteLocacao.nome}</Text>
           </View>
           <View style={styles.infoItem}>
-            <Text style={styles.textAdress}>Cliente:</Text>
+            <Text style={styles.textAdress}>Valor: {formatTotalValue(item.valor_total)}</Text>
           </View>
           <View style={styles.infoItem}>
-            <Text style={styles.textAdress}>Valor:</Text>
-          </View>
-          <View style={styles.infoItem}>
-            <Text style={styles.textAdress}>Intervalo:</Text>
+            <Text style={styles.textAdress}>Intervalo: {dataAtualFormatada(item.data_inicial)} até dia {dataAtualFormatada(item.data_final)}</Text>
           </View>
 
         </View>
@@ -43,7 +61,7 @@ function CardGaragem({ navigation, item }) {
       <View>
         <TouchableOpacity
           style={ styles.btnRejeitar}
-          onPress={() => navigation.navigate('Garage', {item: item})}
+          onPress={() => {}}
         >
           <Text style={styles.textDetalhes}>Rejeitar</Text>
         </TouchableOpacity>
@@ -51,7 +69,7 @@ function CardGaragem({ navigation, item }) {
       <View>
         <TouchableOpacity
           style={ styles.btnAceitar}
-          onPress={() => navigation.navigate('Garage', {item: item})}
+          onPress={() => {}}
         >
           <Text style={styles.textDetalhes}>Aceitar</Text>
         </TouchableOpacity>
@@ -65,17 +83,19 @@ function CardGaragem({ navigation, item }) {
 
 
 function Locacoes({ navigation }) {
-  const [garages, setGarages] = useState([]);
+  const [Locacoes, setLocacoes] = useState([]);
 
   useEffect(() => {
-    async function loadGarages(){
+    async function loadLocacoes(){
 
-      const response = await api.get('/garages');
+      setLocacoes([])
 
-      setGarages(response.data);
+      const response = await api.get('/locacaoproprietario');
+
+      setLocacoes(response.data);
     }
 
-    loadGarages();
+    loadLocacoes();
 
 
   },[])
@@ -84,8 +104,13 @@ function Locacoes({ navigation }) {
     <View style={styles.screen}>
 
       <FlatList
-        data={garages}
-        keyExtractor = {(garage) => `list-item-${garage.id}`}
+        data={Locacoes}
+        keyExtractor = {(locacao) => `list-item-${locacao.id}`}
+        ListEmptyComponent={() => (
+          <View style={{height: 300, marginHorizontal:20, alignItems:"center", justifyContent:"center"}} >
+          <Text style={{fontSize: 20}}>Não há nenhuma locação no momento</Text>
+          </View>
+          )}
         renderItem={({ item }) =>
           <View>
             <CardGaragem navigation={navigation} item={item} />

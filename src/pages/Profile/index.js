@@ -10,7 +10,7 @@ import styles from './style';
 
 
 function Profile({ navigation }) {
-  const { signOut } = useContext(AuthContext);
+  const { signOut, user} = useContext(AuthContext);
 
   function handleSignOut() {
     console.log("swes")
@@ -26,7 +26,7 @@ function Profile({ navigation }) {
           />
         </View>
         <View style={styles.containertextName}>
-          <Text style={styles.textName}>Denis Luciano</Text>
+          <Text style={styles.textName}>{user.nome}</Text>
           </View>
         <View style={styles.containerItemsProfile}>
           <View style={styles.itemProfile}>
