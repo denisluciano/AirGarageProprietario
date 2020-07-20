@@ -17,9 +17,21 @@ export default function AddGaragePage4({route, navigation}) {
     console.log(payload);
 
     api.post('/garages', payload).then((res) => {
+
       console.log((res.data.id))
 
+      navigation.navigate('Home')
+
+      Alert.alert(
+        "Sucesso",
+        "Sua garagem foi cadastrada com sucesso"
+      )
+
     }).catch((err) =>{
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro ao cadastrar a garagem"
+      )
       console.log(err)
     });
 
